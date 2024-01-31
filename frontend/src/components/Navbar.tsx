@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <Box p={2}>
       <Flex>
-        <Image src={Logo} alt="AquaBills Logo" width="50px" height="50px" />
+        <Image src={Logo} alt="AquaBills Logo" width="150px" height="auto" />
         <Spacer />
         <NavTabs />
         <Spacer />
