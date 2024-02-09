@@ -1,5 +1,6 @@
-import Logo from "./logo.svg"
+import Logo from "./logo.svg";
+import ALogo from "./Logo.svg";
+import BG from "./anim.svg";
+import BG2 from "./bg2.svg";
 
-export {
-    Logo
-}
+export { Logo, ALogo, BG, BG2 };

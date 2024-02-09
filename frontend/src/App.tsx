@@ -6,16 +6,30 @@ import {
   Overview,
   Reports,
   Settings,
-  Sidebar,
 } from "./components";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   const items = ["List1", "List2", "List3", "List4"];
+  const routes = [
+    "/overview",
+    "/billing-history",
+    "/clients",
+    "/reports",
+    "/settings",
+  ];
   return (
     <Box>
       <Box>
-        <Navbar />
+        <Routes>
+          <Route
+            path="/"
+            element={<Navbar showNavTabs={false} showMenuItems={false} />}
+          />
+          {routes.map((route) => (
+            <Route key={route} path={route} element={<Navbar />} />
+          ))}
+        </Routes>
       </Box>
       <Box as="main">
         <Routes>

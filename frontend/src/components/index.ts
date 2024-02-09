@@ -1,12 +1,14 @@
 import Sidebar from "./Sidebar";
-import Login from "./Login";
-import Navbar from "./Navbar";
-import NavTabs from "./NavTabs";
-import Settings from "./Settings";
-import Overview from "./Overview";
-import History from "./History";
-import Clients from "./Clients";
-import Reports from "./Reports";
+import Login from "./Auth/Login";
+import Navbar from "./Navbar/Navbar";
+import NavTabs from "./Navbar/NavTabs";
+import Settings from "./Settings/Settings";
+import Overview from "./Overview/Overview";
+import History from "./History/History";
+import Clients from "./Clients/Clients";
+import Reports from "./Reports/Reports";
+import Register from "./Auth/Register";
+import { PasswordField } from "./Auth/PasswordField";
 
 export {
   Sidebar,
@@ -18,4 +20,6 @@ export {
   Clients,
   Reports,
   Settings,
+  Register,
+  PasswordField,
 };
