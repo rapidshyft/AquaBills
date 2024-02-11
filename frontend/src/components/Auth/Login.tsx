@@ -1,7 +1,7 @@
 import {
+  AbsoluteCenter,
   Box,
   Button,
-  ButtonGroup,
   Checkbox,
   Divider,
   Drawer,
@@ -13,22 +13,20 @@ import {
   FormControl,
   FormLabel,
   HStack,
-  Image,
   Input,
   Stack,
-  Link as CLink,
-  Text,
   VStack,
-  VisuallyHidden,
+  Text,
+  Image,
+  Link as CLink,
   useDisclosure,
-  AbsoluteCenter,
 } from "@chakra-ui/react";
-import { ALogo } from "../../assets";
-import { FaFacebook, FaGoogle, FaTwitter, FaUser } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa6";
 import { PasswordField } from "../Auth/PasswordField";
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../utils/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { ALogo } from "../../assets";
 
 export const Login = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -43,26 +41,30 @@ export const Login = () => {
     onSignUpOpen(); // Open the sign-up drawer
   };
 
-  const loginForm = useRef(null);
-  const { login, loading } = useAuth();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { user, login, register } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    const target = e.target as typeof e.target & {
-      email: { value: string };
-      password: { value: string };
-    };
-    target.email.value;
-    target.password.value;
-
-    await login(email, password);
-    console.log("submitted");
+  const handleLogin = async () => {
+    try {
+      await login(email, password);
+      onClose(); // Close the login drawer
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const handleRegister = async () => {
+    try {
+      await register(email, password, name);
+      onClose(); // Close the sign-up drawer
+    } catch (error) {
+      console.error("Registration error:", error);
+    }
+  };
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   return (
     <>
@@ -95,7 +97,7 @@ export const Login = () => {
           <DrawerCloseButton />
           <DrawerHeader></DrawerHeader>
 
-          <DrawerBody pt={2} ref={loginForm}>
+          <DrawerBody>
             <VStack pt={4} pb={8}>
               <Image
                 src={ALogo}
@@ -109,23 +111,20 @@ export const Login = () => {
               <CreateAccount onSignUp={toggleSignUp} />
             </VStack>
             <Stack spacing="24px" pt={2}>
-              <form id="login-form" onSubmit={handleSubmit}>
-                <FormLabel htmlFor="username">Name</FormLabel>
+              <FormControl>
+                <FormLabel>Email address</FormLabel>
+
                 <Input
                   type="email"
-                  name="email"
-                  placeholder="Type here..."
+                  placeholder="Email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <FormLabel htmlFor="password" pt={2}>
-                  Password
-                </FormLabel>
-                <Input
-                  type="password"
-                  name="password"
-                  placeholder="Type here..."
+                <PasswordField
+                  value={password} // Pass the password state to PasswordField component
+                  onChange={(e) => setPassword(e.target.value)} // Pass the setPassword function to PasswordField component
                 />
-              </form>
+              </FormControl>
             </Stack>
             <HStack justify="space-between" pt={3} pb={6}>
               <Checkbox defaultChecked size="sm">
@@ -143,7 +142,7 @@ export const Login = () => {
                 border="2px"
                 type="submit"
                 form="login-form"
-                isLoading={loading}
+                onClick={handleLogin}
               >
                 Sign in
               </Button>
@@ -171,14 +170,25 @@ export const Login = () => {
           <DrawerBody>
             <Stack spacing="12px" pt={2}>
               <FormControl>
-                <FormLabel htmlFor="id">National id</FormLabel>
-                <Input id="govtId" type="text" placeholder="National ID" />
+                <FormLabel>Full Name</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <FormLabel>Email address</FormLabel>
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <PasswordField
+                  value={password} // Pass the password state to PasswordField component
+                  onChange={(e) => setPassword(e.target.value)} // Pass the setPassword function to PasswordField component
+                />
               </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <Input id="email" type="email" placeholder="Email Address" />
-              </FormControl>
-              <PasswordField />
             </Stack>
             <Stack spacing="6" pt={6}>
               <Button
@@ -186,6 +196,7 @@ export const Login = () => {
                 variant="solid"
                 rounded={20}
                 border="2px"
+                onClick={handleRegister}
               >
                 Submit
               </Button>
@@ -196,6 +207,7 @@ export const Login = () => {
     </>
   );
 };
+
 interface CreateAccountProps {
   onSignUp: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }
@@ -212,27 +224,3 @@ function CreateAccount({ onSignUp }: CreateAccountProps) {
     </>
   );
 }
-
-const providers = [
-  { name: "Google", icon: <FaGoogle /> },
-  { name: "Twitter", icon: <FaTwitter /> },
-  { name: "Twitter", icon: <FaFacebook /> },
-];
-
-export const OAuthButtonGroup = () => (
-  <ButtonGroup variant="secondary" spacing="2">
-    {providers.map(({ name, icon }) => (
-      <Button
-        key={name}
-        flexGrow={1}
-        colorScheme="blue"
-        variant="outline"
-        rounded={10}
-        border="1px"
-      >
-        <VisuallyHidden>Sign in with {name}</VisuallyHidden>
-        {icon}
-      </Button>
-    ))}
-  </ButtonGroup>
-);

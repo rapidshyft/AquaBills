@@ -1,11 +1,8 @@
-import { Client, Account } from "appwrite"; // Import the Account object from the appwrite package
+import { Client, Account } from "appwrite";
 
-// Initialize Appwrite
-
-const client = new Client();
+export const client = new Client();
 
 client.setEndpoint("").setProject("");
 
-const account = new Account(client); // Create an instance of the Account object
-
-export { client, account };
+export const account = new Account(client);
+export { ID } from "appwrite";

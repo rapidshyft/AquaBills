@@ -1,7 +1,11 @@
-// AuthContext.tsx
-import React, { createContext, useContext, useState } from "react";
-import { account } from "./authConfig";
-import { useNavigate } from "react-router-dom";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { account, ID } from "./authConfig";
+
+// Define the interface for the User object
+interface AuthUser {
+  name: string;
+  // Add other properties as needed
+}
 
 // Initialize Auth Context
 const AuthContext = createContext<any>(null);
@@ -10,54 +14,76 @@ const AuthContext = createContext<any>(null);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<any>(true);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-  const navigate = useNavigate();
+  // Check if there's a logged-in user stored in localStorage
+  const checkLocalStorage = () => {
+    const storedUser = localStorage.getItem("loggedInUser");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  };
 
-  const loadAccount = async () => {
+  // Login function
+  const login = async (email: string, password: string) => {
+    setLoading(true);
     try {
-      const loadedAccount = await account.get();
-      setUser(loadedAccount);
+      const session = await account.createEmailSession(email, password);
+      const user = await account.get();
+      setUser(user);
+      // Store the logged-in user in localStorage
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
     } catch (error) {
-      console.error(error);
-      setError("failed to load user");
+      setError("Failed to login");
+      console.error("Login error:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const login = async (email: string, password: string) => {
+  // Register function
+  const register = async (email: string, password: string, name: string) => {
+    setLoading(true);
     try {
-      await account.createEmailSession(email, password);
-      console.log("not here");
-      await loadAccount();
-      navigate("/overview");
-    } catch (error: any) {
-      console.log("here");
-      console.error(error);
+      await account.create(ID.unique(), email, password, name);
+      await login(email, password);
+    } catch (error) {
+      setError("Failed to register");
+      console.error("Registration error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Logout function
   const logout = async () => {
     setLoading(true);
     try {
       await account.deleteSession("current");
       setUser(null);
+      // Remove the logged-in user from localStorage
+      localStorage.removeItem("loggedInUser");
     } catch (error) {
-      console.error(error);
+      setError("Failed to logout");
+      console.error("Logout error:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const contextData = { user, loading, login, logout };
+  // Load user from localStorage on component mount
+  useEffect(() => {
+    checkLocalStorage();
+  }, []);
+
+  const contextData = { user, loading, error, login, register, logout };
 
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
   );
 };
-export default AuthContext;
+
 // Custom hook to use Auth context
 export const useAuth = () => useContext(AuthContext);

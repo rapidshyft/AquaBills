@@ -5,7 +5,7 @@ import NavTabs from "./Navbar/NavTabs";
 import Settings from "./Settings/Settings";
 import Overview from "../pages/Overview";
 import History from "../pages/History";
-import Clients from "./Clients/Clients";
+import Clients from "../pages/Clients";
 import Reports from "./Reports/Reports";
 import Register from "./Auth/Register";
 import { PasswordField } from "./Auth/PasswordField";

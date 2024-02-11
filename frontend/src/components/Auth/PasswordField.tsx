@@ -16,7 +16,6 @@ export const PasswordField = forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => {
     const { isOpen, onToggle } = useDisclosure();
     const inputRef = useRef<HTMLInputElement>(null);
-    const [password, setPassword] = useState("");
 
     const mergeRef = useMergeRefs(inputRef, ref);
     const onClickReveal = () => {
@@ -44,8 +43,6 @@ export const PasswordField = forwardRef<HTMLInputElement, InputProps>(
             ref={mergeRef}
             name="password"
             type={isOpen ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
             required
             {...props}
