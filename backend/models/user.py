@@ -1,14 +1,9 @@
 import secrets
 import string
 
-from appwrite.id import ID
-
 
 class User:
     user_id = None
-    username = ""
-    email = ""
-    address = ""
 
     def __init__(self):
         self.user_id = self.generate_unique_id()

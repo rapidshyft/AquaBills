@@ -1,3 +1,5 @@
-from core.db import Database
+from api import run_app
 
-Database.create_user()
+if __name__ == '__main__':
+    app = run_app()
+    app.run(debug=True)
