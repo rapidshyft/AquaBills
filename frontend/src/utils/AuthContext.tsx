@@ -7,8 +7,18 @@ interface AuthUser {
   // Add other properties as needed
 }
 
+// Define the type for the Auth context value
+interface AuthContextType {
+  user: AuthUser | null;
+  loading: boolean;
+  error: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
+  logout: () => Promise<void>;
+}
+
 // Initialize Auth Context
-const AuthContext = createContext<any>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Auth Provider Component
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -78,7 +88,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     checkLocalStorage();
   }, []);
 
-  const contextData = { user, loading, error, login, register, logout };
+  const contextData: AuthContextType = {
+    user,
+    loading,
+    error,
+    login,
+    register,
+    logout,
+  };
 
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
@@ -86,4 +103,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 // Custom hook to use Auth context
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
