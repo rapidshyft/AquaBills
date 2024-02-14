@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   HStack,
   IconButton,
@@ -16,11 +17,17 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ALogo } from "../../assets";
-import { FaChevronDown } from "react-icons/fa6";
-import { FaBell, FaSearch } from "react-icons/fa";
+import { FaChevronDown, FaDoorOpen } from "react-icons/fa6";
+import {
+  FaArrowCircleLeft,
+  FaBell,
+  FaLongArrowAltLeft,
+  FaSearch,
+} from "react-icons/fa";
 import { NavTabs } from "..";
 import { Login } from "../Auth/Login.tsx";
 import "./styles.css";
+import { useAuth } from "../../utils/AuthContext.tsx";
 
 const Navbar = ({ showNavTabs = true, showMenuItems = true }) => {
   return (
@@ -37,6 +44,7 @@ const Navbar = ({ showNavTabs = true, showMenuItems = true }) => {
 };
 
 const MenuItems = () => {
+  const { user, logout } = useAuth();
   return (
     <Box>
       <HStack spacing={{ base: "0", md: "6" }}>
@@ -75,7 +83,7 @@ const MenuItems = () => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Lwazi Ncube</Text>
+                  <Text fontSize="sm">{user?.name}</Text>
                   <Text fontSize="xs" color="gray.600">
                     Admin
                   </Text>
@@ -90,7 +98,15 @@ const MenuItems = () => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <Button
+                variant={"solid"}
+                leftIcon={<FaDoorOpen />}
+                bg={"red.300"}
+                width={"100%"}
+                onClick={logout}
+              >
+                Sign out
+              </Button>
             </MenuList>
           </Menu>
         </Flex>
