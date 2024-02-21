@@ -64,6 +64,18 @@ Note:
 I will post a detailed blog post link about the challenges I faced while doing this project and more.
 ....
 
+# Connect with Me
+
+You can find me on various platforms:
+
+- **LinkedIn:** [LwaziNcubeX](https://www.linkedin.com/in/LwaziNcubeX)
+- **Twitter:** [@LwaziNcubeX](https://twitter.com/LwaziNcubeX)
+- **Telegram:** [@LwaziNcubeX](https://t.me/LwaziNcubeX)
+
+Feel free to reach out to me on any of these platforms!
+
+
+
 ## Licensing
 
 AquaBills is licensed under the [GNU General Public License v3.0 (GPL-3.0)](LICENSE).
