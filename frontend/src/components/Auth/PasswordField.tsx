@@ -9,7 +9,7 @@ import {
   useDisclosure,
   useMergeRefs,
 } from "@chakra-ui/react";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
 export const PasswordField = forwardRef<HTMLInputElement, InputProps>(

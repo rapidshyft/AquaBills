@@ -18,12 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { ALogo } from "../../assets";
 import { FaChevronDown, FaDoorOpen } from "react-icons/fa6";
-import {
-  FaArrowCircleLeft,
-  FaBell,
-  FaLongArrowAltLeft,
-  FaSearch,
-} from "react-icons/fa";
+import { FaBell, FaSearch } from "react-icons/fa";
 import { NavTabs } from "..";
 import { Login } from "../Auth/Login.tsx";
 import "./styles.css";

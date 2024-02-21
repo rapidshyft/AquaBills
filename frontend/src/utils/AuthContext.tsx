@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const session = await account.createEmailSession(email, password);
+      await account.createEmailSession(email, password);
       const user = await account.get();
       setUser(user);
       // Store the logged-in user in localStorage

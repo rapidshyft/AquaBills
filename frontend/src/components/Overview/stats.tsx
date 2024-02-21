@@ -17,7 +17,7 @@ interface Stat {
   trend?: "increase" | "decrease" | "unchanged";
 }
 
-const stats = [
+const stats: Stat[] = [
   {
     label: "Total Consumers",
     value: "100,000",
@@ -50,7 +50,6 @@ const stats = [
     trend: "increase",
   },
 ];
-
 export const StatCount: React.FC = () => {
   return (
     <Box as="section" py={10} bg="gray.50">
