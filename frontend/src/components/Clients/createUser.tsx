@@ -8,10 +8,10 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Stack,
   FormControl,
   FormLabel,
   Input,
+  Grid,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -21,8 +21,13 @@ export function CreateUser() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [govtId, setGovtId] = useState("");
-  const [address, setAddress] = useState("");
+  const [meterNumber, setMeterNumber] = useState("");
+  const [houseNumber, setHouseNumber] = useState("");
+
+  const [town, setTown] = useState("");
+  const [city, setCity] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,16 +38,25 @@ export function CreateUser() {
         {
           name,
           email,
+          phone_number: phone,
+          meterNumber,
           govtId,
-          address,
+          town,
+          city,
+          houseNumber,
         }
       );
       console.log("User created:", response.data);
       // Reset form fields
       setName("");
       setEmail("");
+      setPhone("");
+      setMeterNumber("");
       setGovtId("");
-      setAddress("");
+      setHouseNumber("");
+      setTown("");
+      setCity("");
+
       // Clear error message
       setErrorMessage("");
       onClose();
@@ -51,6 +65,72 @@ export function CreateUser() {
       setErrorMessage("Failed to create user. Please try again.");
     }
   };
+
+  const formFields = [
+    {
+      label: "Full Name",
+      value: name,
+      onChange: setName,
+      type: "text",
+      placeholder: "Name",
+    },
+    {
+      label: "Email",
+      value: email,
+      onChange: setEmail,
+      type: "email",
+      placeholder: "Email",
+    },
+    {
+      label: "Phone Number",
+      value: phone,
+      onChange: setPhone,
+      type: "tel",
+      placeholder: "Phone Number",
+    },
+    {
+      label: "Government ID",
+      value: govtId,
+      onChange: setGovtId,
+      type: "text",
+      placeholder: "Government ID",
+    },
+    {
+      label: "Meter Number",
+      value: meterNumber,
+      onChange: setMeterNumber,
+      type: "text",
+      placeholder: "Meter Number (6 characters only)",
+    },
+    {
+      label: "House Number",
+      value: houseNumber,
+      onChange: setHouseNumber,
+      type: "text",
+      placeholder: "House Number, Street (optional)",
+    },
+    {
+      label: "Town/Suburb",
+      value: town,
+      onChange: setTown,
+      type: "text",
+      placeholder: "Town/Suburb",
+    },
+    {
+      label: "City",
+      value: city,
+      onChange: setCity,
+      type: "text",
+      placeholder: "City",
+    },
+    {
+      label: "Country",
+      value: "Zimbabwe",
+      type: "text",
+      placeholder: "Country",
+      readOnly: true,
+    },
+  ];
 
   return (
     <>
@@ -62,53 +142,36 @@ export function CreateUser() {
         variant={"solid"}
         colorScheme={"blue"}
       >
-        Create User
+        Add User
       </Button>
 
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+        <ModalOverlay
+          bg="none"
+          backdropFilter="auto"
+          backdropInvert="80%"
+          backdropBlur="2px"
+        />
+        <ModalContent maxW={"2xl"}>
+          <ModalHeader>Add a new user entry</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Stack>
-              <FormControl>
-                <FormLabel>Full Name</FormLabel>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Name"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Government ID</FormLabel>
-                <Input
-                  type="text"
-                  value={govtId}
-                  onChange={(e) => setGovtId(e.target.value)}
-                  placeholder="Government ID"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Address</FormLabel>
-                <Input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Address"
-                />
-              </FormControl>
-            </Stack>
+            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+              {formFields.map((field, index) => (
+                <FormControl key={index} isRequired={false}>
+                  <FormLabel>{field.label}</FormLabel>
+                  <Input
+                    type={field.type}
+                    value={field.value}
+                    onChange={(e) =>
+                      field.onChange && field.onChange(e.target.value)
+                    }
+                    placeholder={field.placeholder}
+                    readOnly={field.readOnly}
+                  />
+                </FormControl>
+              ))}
+            </Grid>
           </ModalBody>
 
           <ModalFooter>

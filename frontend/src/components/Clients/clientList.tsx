@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Container,
@@ -13,70 +14,103 @@ import {
   Heading,
   Select,
   Button,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Spacer,
+  Badge,
+  Checkbox,
+  IconButton,
 } from "@chakra-ui/react";
-import { FaPlus } from "react-icons/fa6";
+import { FaTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { CreateUser } from "./createUser";
 
 interface Client {
-  id: number;
+  $id: string;
   name: string;
-  address: string;
-  dateCreated: string;
-  meterNumber: string;
-  status: "active" | "disabled";
+  email: string;
+  govt_id: string;
+  meter_number: string;
+  address: string[];
+  phone_number: string;
+  status: string;
 }
 
 const ClientList = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filterByStatus, setFilterByStatus] = useState<string>("All");
+  const [clients, setClients] = useState<Client[]>([]);
+  const [selectedClients, setSelectedClients] = useState<string[]>([]);
+  const [selectAll, setSelectAll] = useState<boolean>(false);
 
-  const sampleClients: Client[] = [
-    {
-      id: 1,
-      name: "John Doe",
-      address: "123 Main St",
-      dateCreated: "2023-05-15",
-      meterNumber: "M001",
-      status: "active",
-    },
-    {
-      id: 2,
-      name: "Alice Smith",
-      address: "456 Elm St",
-      dateCreated: "2022-10-10",
-      meterNumber: "M002",
-      status: "disabled",
-    },
-    {
-      id: 3,
-      name: "Bob Johnson",
-      address: "789 Oak St",
-      dateCreated: "2024-01-05",
-      meterNumber: "M003",
-      status: "active",
-    },
-  ];
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
+  const fetchClients = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/list_users");
+      setClients(response.data.documents);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+    }
+  };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterByStatus(e.target.value);
+    const selectedStatus = e.target.value.toLowerCase(); // Convert to lowercase
+    setFilterByStatus(selectedStatus);
   };
 
-  const filteredClients = sampleClients.filter((client) => {
+  const handleDeleteSelected = async () => {
+    try {
+      await axios.delete("http://localhost:5000/api/delete_selected_users", {
+        data: { ids: selectedClients },
+      });
+      // Refresh client list after deletion
+      fetchClients();
+      // Clear selected clients
+      setSelectedClients([]);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error("Error deleting clients:", error);
+    }
+  };
+
+  const handleCheckboxChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    clientId: string
+  ) => {
+    if (e.target.checked) {
+      setSelectedClients((prevSelectedClients) => [
+        ...prevSelectedClients,
+        clientId,
+      ]);
+    } else {
+      setSelectedClients((prevSelectedClients) =>
+        prevSelectedClients.filter((id) => id !== clientId)
+      );
+    }
+  };
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectAll(e.target.checked);
+    if (e.target.checked) {
+      const allClientIds = clients.map((client) => client.$id);
+      setSelectedClients(allClientIds);
+    } else {
+      setSelectedClients([]);
+    }
+  };
+
+  const filteredClients = clients.filter((client) => {
     return (
       client.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (filterByStatus === "All" || client.status === filterByStatus)
+      (filterByStatus === "All" ||
+        (filterByStatus === "active" && client.status === "Active") ||
+        (filterByStatus === "disabled" && client.status === "Disabled"))
     );
   });
 
@@ -98,28 +132,55 @@ const ClientList = () => {
               <option value="disabled">Disabled</option>
             </Select>
             <CreateUser />
+            <IconButton
+              colorScheme="red"
+              onClick={handleDeleteSelected}
+              disabled={selectedClients.length === 0}
+              icon={<FaTrashAlt />}
+              color="white"
+              aria-label={""}
+            ></IconButton>
           </HStack>
         </HStack>
-        <Table variant="simple" mt={4}>
+        <Table variant="simple" mt={4} overflowX="auto">
           <Thead>
             <Tr>
+              <Th>
+                <Checkbox isChecked={selectAll} onChange={handleSelectAll} />
+              </Th>
               <Th>ID</Th>
               <Th>Customer Name</Th>
-              <Th>Address</Th>
-              <Th>Date Created</Th>
+              <Th>Email</Th>
+              <Th>Govt ID</Th>
               <Th>Meter Number</Th>
+              <Th>Address</Th>
+              <Th>Phone Number</Th>
               <Th>Status</Th>
             </Tr>
           </Thead>
           <Tbody>
             {filteredClients.map((client) => (
-              <Tr key={client.id}>
-                <Td>{client.id}</Td>
+              <Tr key={client.$id}>
+                <Td>
+                  <Checkbox
+                    isChecked={selectedClients.includes(client.$id)}
+                    onChange={(e) => handleCheckboxChange(e, client.$id)}
+                  />
+                </Td>
+                <Td>{client.$id}</Td>
                 <Td>{client.name}</Td>
-                <Td>{client.address}</Td>
-                <Td>{client.dateCreated}</Td>
-                <Td>{client.meterNumber}</Td>
-                <Td>{client.status}</Td>
+                <Td>{client.email}</Td>
+                <Td>{client.govt_id}</Td>
+                <Td>{client.meter_number}</Td>
+                <Td>{client.address.join(" , ")}</Td>
+                <Td>{client.phone_number}</Td>
+                <Td>
+                  {client.status === "Active" ? (
+                    <Badge colorScheme="green">Active</Badge>
+                  ) : (
+                    <Badge colorScheme="red">Disabled</Badge>
+                  )}
+                </Td>
               </Tr>
             ))}
           </Tbody>
