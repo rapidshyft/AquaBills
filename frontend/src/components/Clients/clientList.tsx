@@ -48,7 +48,9 @@ const ClientList = () => {
 
   const fetchClients = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/list_users");
+      const response = await axios.get(
+        "http://34.202.159.66:8080/api/list_users"
+      );
       setClients(response.data.documents);
     } catch (error) {
       console.error("Error fetching clients:", error);
@@ -66,9 +68,12 @@ const ClientList = () => {
 
   const handleDeleteSelected = async () => {
     try {
-      await axios.delete("http://localhost:5000/api/delete_selected_users", {
-        data: { ids: selectedClients },
-      });
+      await axios.delete(
+        " http://34.202.159.66:8080/api/delete_selected_users",
+        {
+          data: { ids: selectedClients },
+        }
+      );
       // Refresh client list after deletion
       fetchClients();
       // Clear selected clients
@@ -108,6 +113,10 @@ const ClientList = () => {
     }
   };
 
+  const handleCreateUserSuccess = () => {
+    fetchClients(); // Refresh client list after creating a user
+  };
+
   const filteredClients = clients.filter((client) => {
     return (
       client.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -134,7 +143,7 @@ const ClientList = () => {
               <option value="active">Active</option>
               <option value="disabled">Disabled</option>
             </Select>
-            <CreateUser />
+            <CreateUser onCreateUserSuccess={handleCreateUserSuccess} />
             <IconButton
               colorScheme="red"
               onClick={handleDeleteSelected}

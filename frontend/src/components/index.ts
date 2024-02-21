@@ -1,4 +1,3 @@
-import Sidebar from "./Sidebar";
 import { Login } from "./Auth/Login";
 import Navbar from "./Navbar/Navbar";
 import NavTabs from "./Navbar/NavTabs";
@@ -14,7 +13,6 @@ import RecentActivities from "./Overview/recentActivities";
 import BillingHistory from "./History/BillingHistory";
 
 export {
-  Sidebar,
   Navbar,
   NavTabs,
   Login,

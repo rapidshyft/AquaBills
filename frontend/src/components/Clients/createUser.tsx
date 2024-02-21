@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import axios from "axios";
 import {
   useDisclosure,
   Button,
@@ -13,11 +15,13 @@ import {
   Input,
   Grid,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
-export function CreateUser() {
+interface CreateUserProps {
+  onCreateUserSuccess: () => void; // Callback function to be invoked after creating a user
+}
+
+export function CreateUser({ onCreateUserSuccess }: CreateUserProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,7 +29,6 @@ export function CreateUser() {
   const [govtId, setGovtId] = useState("");
   const [meterNumber, setMeterNumber] = useState("");
   const [houseNumber, setHouseNumber] = useState("");
-
   const [town, setTown] = useState("");
   const [city, setCity] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,7 +37,7 @@ export function CreateUser() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/create_user",
+        "http://34.202.159.66:8080/api/create_user",
         {
           name,
           email,
@@ -60,6 +63,8 @@ export function CreateUser() {
       // Clear error message
       setErrorMessage("");
       onClose();
+      // Invoke the callback function to refresh the client list
+      onCreateUserSuccess();
     } catch (error) {
       console.error("Error creating user:", error);
       setErrorMessage("Failed to create user. Please try again.");

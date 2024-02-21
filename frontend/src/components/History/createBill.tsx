@@ -5,9 +5,17 @@ import {
   FormLabel,
   Input,
   Stack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { FaPlus } from "react-icons/fa6";
 
 export function BillingRecordForm() {
   const [formData, setFormData] = useState({
@@ -16,7 +24,7 @@ export function BillingRecordForm() {
     pricePerCubicMeter: "",
     fixedCharges: "",
   });
-
+  const [isOpen, setIsOpen] = useState(false); // State variable to handle modal open/close
   const toast = useToast();
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -28,10 +36,10 @@ export function BillingRecordForm() {
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
     try {
       const response = await axios.post(
-        "http://localhost:5000/create_bill",
+        "http://34.202.159.66:8080/create_bill",
         formData
       );
       console.log("Billing record created:", response.data);
@@ -50,6 +58,8 @@ export function BillingRecordForm() {
         pricePerCubicMeter: "",
         fixedCharges: "",
       });
+      // Close the modal after successful submission
+      setIsOpen(false);
     } catch (error) {
       console.error("Error creating billing record:", error);
       // Show error toast
@@ -64,52 +74,75 @@ export function BillingRecordForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack spacing={4}>
-        <FormControl isRequired>
-          <FormLabel>Customer ID</FormLabel>
-          <Input
-            type="text"
-            name="customerId"
-            value={formData.customerId}
-            onChange={handleChange}
-            placeholder="Customer ID"
-          />
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Water Usage</FormLabel>
-          <Input
-            type="number"
-            name="waterUsage"
-            value={formData.waterUsage}
-            onChange={handleChange}
-            placeholder="Water Usage"
-          />
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Price Per Cubic Meter</FormLabel>
-          <Input
-            type="number"
-            name="pricePerCubicMeter"
-            value={formData.pricePerCubicMeter}
-            onChange={handleChange}
-            placeholder="Price Per Cubic Meter"
-          />
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Fixed Charges</FormLabel>
-          <Input
-            type="number"
-            name="fixedCharges"
-            value={formData.fixedCharges}
-            onChange={handleChange}
-            placeholder="Fixed Charges"
-          />
-        </FormControl>
-        <Button colorScheme="blue" type="submit">
-          Create Billing Record
-        </Button>
-      </Stack>
-    </form>
+    <>
+      <Button
+        leftIcon={<FaPlus />}
+        colorScheme="blue"
+        onClick={() => setIsOpen(true)}
+      >
+        Create Bill
+      </Button>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create Billing Record</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <form onSubmit={handleSubmit}>
+              <Stack spacing={4}>
+                <FormControl isRequired>
+                  <FormLabel>Customer ID</FormLabel>
+                  <Input
+                    type="text"
+                    name="customerId"
+                    value={formData.customerId}
+                    onChange={handleChange}
+                    placeholder="Customer ID"
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Water Usage</FormLabel>
+                  <Input
+                    type="number"
+                    name="waterUsage"
+                    value={formData.waterUsage}
+                    onChange={handleChange}
+                    placeholder="Water Usage"
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Price Per Cubic Meter</FormLabel>
+                  <Input
+                    type="number"
+                    name="pricePerCubicMeter"
+                    value={formData.pricePerCubicMeter}
+                    onChange={handleChange}
+                    placeholder="Price Per Cubic Meter"
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Fixed Charges</FormLabel>
+                  <Input
+                    type="number"
+                    name="fixedCharges"
+                    value={formData.fixedCharges}
+                    onChange={handleChange}
+                    placeholder="Fixed Charges"
+                  />
+                </FormControl>
+              </Stack>
+            </form>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+              Create Billing Record
+            </Button>
+            <Button variant="ghost" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

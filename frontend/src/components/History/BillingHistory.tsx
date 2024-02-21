@@ -10,7 +10,9 @@ import {
   Th,
   Td,
   Heading,
+  HStack,
 } from "@chakra-ui/react";
+import { BillingRecordForm } from "./createBill";
 
 interface BillingRecord {
   name: string;
@@ -30,7 +32,9 @@ const BillingHistory = () => {
 
   const fetchBillingRecords = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/billing_records");
+      const response = await axios.get(
+        "http://34.202.159.66:8080/billing_records"
+      );
       setBillingRecords(response.data.documents);
     } catch (error) {
       console.error("Error fetching billing records:", error);
@@ -40,7 +44,10 @@ const BillingHistory = () => {
   return (
     <Box>
       <Container maxW={"7xl"}>
-        <Heading size="md">Billing History</Heading>
+        <HStack justify="space-between">
+          <Heading size="md">Billing History</Heading>
+          <BillingRecordForm />
+        </HStack>
         <Table variant="simple" mt={4}>
           <Thead>
             <Tr>
