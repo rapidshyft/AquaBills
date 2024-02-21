@@ -3,7 +3,7 @@
 AquaBills is a comprehensive water billing management system designed to streamline the process of managing water consumption, billing, and customer information.
 
 
-![AquaBills Screenshot]("https://images.mingming.dev/file/2ed9947d0e64213b38e0b.png")
+![AquaBills Screenshot](https://images.mingming.dev/file/2ed9947d0e64213b38e0b.png)
 
 ## Introduction
 
