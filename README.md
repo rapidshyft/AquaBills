@@ -55,8 +55,13 @@ Once the servers are running, you can access AquaBills at `http://localhost:5173
 
 Contributions are welcome! To contribute to AquaBills, please follow the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Related Projects
+## The Biggest Challenge
+During project planning, I thought this would be a simple "in and out" job since i had chakra-ui on my side😂. I believed I would finish on time, but little did I know, I was just blinded by illusion. When I initially started the project, I had planned to use React.js and Chakra UI for the frontend. However, I then decided, "Why not use TypeScript so I can learn it while doing the project?"
 
+Implementing TypeScript seemed like a great idea at first. I thought it would enhance the project's maintainability and catch errors early on. However, I quickly realized that TypeScript brought its own set of challenges. I wanted to modify code so i can use javascript but i knew that i will be wasting more time and js had its own challanges so i hadt to continue with typescript
+
+Note:
+I will post a detailed blog post link about the challenges I faced while doing this project and more.
 ....
 
 ## Licensing
