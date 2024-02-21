@@ -59,6 +59,7 @@ export const Login = () => {
       onClose(); // Close the sign-up drawer
     } catch (error) {
       console.error("Registration error:", error);
+      onClose();
     }
   };
 

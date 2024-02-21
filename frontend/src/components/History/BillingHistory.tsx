@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Container,
@@ -8,145 +9,58 @@ import {
   Tr,
   Th,
   Td,
-  Input,
-  HStack,
   Heading,
-  Select,
 } from "@chakra-ui/react";
 
 interface BillingRecord {
-  id: number;
-  customerId: string;
-  customerName: string;
-  address: string;
-  date: string;
-  waterUsage: number;
-  pricePerCubicMeter: number;
-  totalAmount: number;
-  status: "paid" | "pending";
+  name: string;
+  meter_number: string;
+  created_at: string;
+  water_usage: string;
+  price_per_cubic_meter: string;
+  total_amount: string;
 }
 
 const BillingHistory = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filterByStatus, setFilterByStatus] = useState<string>("All");
-  const [sortBy, setSortBy] = useState<string>("date");
+  const [billingRecords, setBillingRecords] = useState<BillingRecord[]>([]);
 
-  const sampleBillingRecords: BillingRecord[] = [
-    {
-      id: 1,
-      customerId: "C001",
-      customerName: "John Doe",
-      address: "123 Main St",
-      date: "2024-01-15",
-      waterUsage: 10,
-      pricePerCubicMeter: 5,
-      totalAmount: 50,
-      status: "paid",
-    },
-    {
-      id: 2,
-      customerId: "C002",
-      customerName: "Alice Smith",
-      address: "456 Elm St",
-      date: "2024-01-10",
-      waterUsage: 8,
-      pricePerCubicMeter: 5,
-      totalAmount: 40,
-      status: "pending",
-    },
-    {
-      id: 3,
-      customerId: "C003",
-      customerName: "Bob Johnson",
-      address: "789 Oak St",
-      date: "2024-01-05",
-      waterUsage: 12,
-      pricePerCubicMeter: 5,
-      totalAmount: 60,
-      status: "paid",
-    },
-  ];
+  useEffect(() => {
+    fetchBillingRecords();
+  }, []);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterByStatus(e.target.value);
-  };
-
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortBy(e.target.value);
-  };
-
-  const filteredRecords = sampleBillingRecords.filter((record) => {
-    return (
-      record.customerName.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (filterByStatus === "All" || record.status === filterByStatus)
-    );
-  });
-
-  const sortedRecords = filteredRecords.sort((a, b) => {
-    if (sortBy === "date") {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    } else if (sortBy === "customerName") {
-      return a.customerName.localeCompare(b.customerName);
-    } else if (sortBy === "waterUsage") {
-      return a.waterUsage - b.waterUsage;
-    } else if (sortBy === "totalAmount") {
-      return a.totalAmount - b.totalAmount;
+  const fetchBillingRecords = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/billing_records");
+      setBillingRecords(response.data.documents);
+    } catch (error) {
+      console.error("Error fetching billing records:", error);
     }
-    return 0;
-  });
+  };
 
   return (
     <Box>
       <Container maxW={"7xl"}>
-        <HStack justify="space-between">
-          <Heading size="md">Billing History</Heading>
-          <HStack spacing={4}>
-            <Input
-              placeholder="Search by name"
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-            <Select value={filterByStatus} onChange={handleFilterChange}>
-              <option value="All">All</option>
-              <option value="paid">Paid</option>
-              <option value="pending">Pending</option>
-            </Select>
-            <Select value={sortBy} onChange={handleSortChange}>
-              <option value="date">Sort by Date</option>
-              <option value="customerName">Sort by Customer Name</option>
-              <option value="waterUsage">Sort by Water Usage</option>
-              <option value="totalAmount">Sort by Total Amount</option>
-            </Select>
-          </HStack>
-        </HStack>
+        <Heading size="md">Billing History</Heading>
         <Table variant="simple" mt={4}>
           <Thead>
             <Tr>
-              <Th>ID</Th>
               <Th>Customer Name</Th>
-              <Th>Address</Th>
+              <Th>Meter Number</Th>
               <Th>Date</Th>
               <Th>Water Usage (m³)</Th>
               <Th>Price Per m³</Th>
-              <Th>Total Amount</Th>
-              <Th>Status</Th>
+              <Th>Total Amount ($)</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {sortedRecords.map((record) => (
-              <Tr key={record.id}>
-                <Td>{record.id}</Td>
-                <Td>{record.customerName}</Td>
-                <Td>{record.address}</Td>
-                <Td>{record.date}</Td>
-                <Td>{record.waterUsage}</Td>
-                <Td>{record.pricePerCubicMeter}</Td>
-                <Td>{record.totalAmount}</Td>
-                <Td>{record.status}</Td>
+            {billingRecords.map((record, index) => (
+              <Tr key={index}>
+                <Td>{record.name}</Td>
+                <Td>{record.meter_number}</Td>
+                <Td>{record.created_at}</Td>
+                <Td>{record.water_usage}</Td>
+                <Td>{record.price_per_cubic_meter}</Td>
+                <Td>{record.total_amount}</Td>
               </Tr>
             ))}
           </Tbody>

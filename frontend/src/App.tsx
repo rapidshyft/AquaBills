@@ -9,9 +9,9 @@ import {
 } from "./components";
 import { Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import HeroPage from "./pages/Landing";
 
 const App = () => {
-  const items = ["List1", "List2", "List3", "List4"];
   const routes = [
     "/overview",
     "/billing-history",
@@ -41,8 +41,8 @@ const App = () => {
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
+          <Route path="/" element={<HeroPage />} />
         </Routes>
-        {/* <Sidebar items={items} heading="Lists" /> */}
       </Box>
     </Box>
   );

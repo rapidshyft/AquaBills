@@ -73,9 +73,12 @@ const ClientList = () => {
       fetchClients();
       // Clear selected clients
       setSelectedClients([]);
-      navigate("/", { replace: true });
+      navigate("/clients", { replace: true });
     } catch (error) {
       console.error("Error deleting clients:", error);
+      fetchClients();
+      // Clear selected clients
+      setSelectedClients([]);
     }
   };
 
