@@ -16,4 +16,5 @@ client.set_key(APPWRITE_API_KEY)
 
 database_id = os.getenv('APPWRITE_DATABASE_ID')
 customers_collection_id = os.getenv('APPWRITE_CUSTOMERS_COLLECTION_ID')
+billing_collection_id = os.getenv('APPWRITE_BILLING_COLLECTION_ID')
 databases = Databases(client)
