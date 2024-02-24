@@ -2,4 +2,3 @@ appwrite
 python-dotenv
 Flask
 flask-cors
-waitress

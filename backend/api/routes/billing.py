@@ -4,7 +4,7 @@ from core.billing import Billing
 billing_bp = Blueprint('billing', __name__)
 
 
-@billing_bp.route('/create_bill', methods=['POST'])
+@billing_bp.route('/api/create_bill', methods=['POST'])
 def create_bill():
     try:
         # Get data from request
