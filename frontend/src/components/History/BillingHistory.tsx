@@ -12,7 +12,7 @@ import {
   Heading,
   HStack,
 } from "@chakra-ui/react";
-import { BillingRecordForm } from "./createBill";
+import { ViewBill } from "./createBill";
 
 interface BillingRecord {
   name: string;
@@ -33,7 +33,7 @@ const BillingHistory = () => {
   const fetchBillingRecords = async () => {
     try {
       const response = await axios.get(
-        "http://34.202.159.66:8080/billing_records"
+        " https://api.rapidshyft.tech/billing_records"
       );
       setBillingRecords(response.data.documents);
     } catch (error) {
@@ -46,7 +46,7 @@ const BillingHistory = () => {
       <Container maxW={"7xl"}>
         <HStack justify="space-between">
           <Heading size="md">Billing History</Heading>
-          <BillingRecordForm />
+          <ViewBill />
         </HStack>
         <Table variant="simple" mt={4}>
           <Thead>

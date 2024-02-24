@@ -48,7 +48,7 @@ const ClientList = () => {
   const fetchClients = async () => {
     try {
       const response = await axios.get(
-        "http://34.202.159.66:8080/api/list_users"
+        "https://api.rapidshyft.tech/api/list_users"
       );
       setClients(response.data.documents);
     } catch (error) {

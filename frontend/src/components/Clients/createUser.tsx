@@ -37,7 +37,7 @@ export function CreateUser({ onCreateUserSuccess }: CreateUserProps) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://34.202.159.66:8080/api/create_user",
+        " https://api.rapidshyft.tech/api/create_user",
         {
           name,
           email,

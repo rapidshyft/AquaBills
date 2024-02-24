@@ -1,146 +1,128 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import {
+  useDisclosure,
   Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
-  ModalBody,
   ModalCloseButton,
-  useToast,
+  ModalBody,
+  ModalFooter,
+  FormControl,
+  FormLabel,
+  Input,
+  Grid,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { FaPlus } from "react-icons/fa6";
 
-export function BillingRecordForm() {
-  const [formData, setFormData] = useState({
-    customerId: "",
-    waterUsage: "",
-    pricePerCubicMeter: "",
-    fixedCharges: "",
-  });
-  const [isOpen, setIsOpen] = useState(false); // State variable to handle modal open/close
-  const toast = useToast();
+export function ViewBill() {
+  const [customer_id, setCustomerId] = useState("");
+  const [water_usage, setWaterUsage] = useState("");
+  const [price_per_cubic_meter, setPricePerCubicMeter] = useState("");
+  const [fixed_charges, setFixedCharges] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault(); // Prevent default form submission
+  const handleSaveBill = async () => {
     try {
       const response = await axios.post(
-        "http://34.202.159.66:8080/create_bill",
-        formData
+        " https://api.rapidshyft.tech/api/create_bill",
+        {
+          customer_id,
+          water_usage,
+          price_per_cubic_meter,
+          fixed_charges,
+        }
       );
-      console.log("Billing record created:", response.data);
-      // Show success toast
-      toast({
-        title: "Billing Record Created",
-        description: "The billing record has been successfully created.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-      // Clear form data
-      setFormData({
-        customerId: "",
-        waterUsage: "",
-        pricePerCubicMeter: "",
-        fixedCharges: "",
-      });
-      // Close the modal after successful submission
-      setIsOpen(false);
+      console.log("Bill created:", response.data);
+      resetForm();
+      onClose();
     } catch (error) {
-      console.error("Error creating billing record:", error);
-      // Show error toast
-      toast({
-        title: "Error",
-        description: "Failed to create billing record. Please try again later.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      console.error("Error creating bill:", error);
+      setErrorMessage("Failed to create bill. Please try again.");
     }
+  };
+
+  const resetForm = () => {
+    setCustomerId("");
+    setWaterUsage("");
+    setPricePerCubicMeter("");
+    setFixedCharges("");
+    setErrorMessage("");
   };
 
   return (
     <>
       <Button
         leftIcon={<FaPlus />}
-        colorScheme="blue"
-        onClick={() => setIsOpen(true)}
+        onClick={onOpen}
+        width={"290px"}
+        height={"40px"}
+        variant={"solid"}
+        colorScheme={"blue"}
       >
         Create Bill
       </Button>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Billing Record</ModalHeader>
+        <ModalContent maxW={"2xl"}>
+          <ModalHeader>Bill Details</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <form onSubmit={handleSubmit}>
-              <Stack spacing={4}>
-                <FormControl isRequired>
-                  <FormLabel>Customer ID</FormLabel>
-                  <Input
-                    type="text"
-                    name="customerId"
-                    value={formData.customerId}
-                    onChange={handleChange}
-                    placeholder="Customer ID"
-                  />
-                </FormControl>
-                <FormControl isRequired>
-                  <FormLabel>Water Usage</FormLabel>
-                  <Input
-                    type="number"
-                    name="waterUsage"
-                    value={formData.waterUsage}
-                    onChange={handleChange}
-                    placeholder="Water Usage"
-                  />
-                </FormControl>
-                <FormControl isRequired>
-                  <FormLabel>Price Per Cubic Meter</FormLabel>
-                  <Input
-                    type="number"
-                    name="pricePerCubicMeter"
-                    value={formData.pricePerCubicMeter}
-                    onChange={handleChange}
-                    placeholder="Price Per Cubic Meter"
-                  />
-                </FormControl>
-                <FormControl isRequired>
-                  <FormLabel>Fixed Charges</FormLabel>
-                  <Input
-                    type="number"
-                    name="fixedCharges"
-                    value={formData.fixedCharges}
-                    onChange={handleChange}
-                    placeholder="Fixed Charges"
-                  />
-                </FormControl>
-              </Stack>
-            </form>
+          <ModalBody pb={6}>
+            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+              <FormControl>
+                <FormLabel>Customer ID</FormLabel>
+                <Input
+                  type="text"
+                  value={customer_id}
+                  onChange={(e) => setCustomerId(e.target.value)}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Water Usage</FormLabel>
+                <Input
+                  type="text"
+                  value={water_usage}
+                  onChange={(e) => setWaterUsage(e.target.value)}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Price Per Cubic Meter</FormLabel>
+                <Input
+                  type="text"
+                  value={price_per_cubic_meter}
+                  onChange={(e) => setPricePerCubicMeter(e.target.value)}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Fixed Charges</FormLabel>
+                <Input
+                  type="text"
+                  value={fixed_charges}
+                  onChange={(e) => setFixedCharges(e.target.value)}
+                />
+              </FormControl>
+            </Grid>
           </ModalBody>
+
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
-              Create Billing Record
+            <Button colorScheme="blue" mr={3} onClick={handleSaveBill}>
+              Save
             </Button>
-            <Button variant="ghost" onClick={() => setIsOpen(false)}>
-              Cancel
-            </Button>
+            <Button onClick={resetForm}>Reset</Button>
+            <Button onClick={onClose}>Close</Button>
           </ModalFooter>
+          {errorMessage && (
+            <Alert status="error" mt={4}>
+              <AlertIcon />
+              {errorMessage}
+            </Alert>
+          )}
         </ModalContent>
       </Modal>
     </>
