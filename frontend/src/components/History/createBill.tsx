@@ -19,18 +19,22 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa6";
 
-export function ViewBill() {
+interface CreateBillProps {
+  onCreateBillSuccess: () => void; // Callback function to be invoked after creating a user
+}
+
+export function ViewBill({ onCreateBillSuccess }: CreateBillProps) {
   const [customer_id, setCustomerId] = useState("");
-  const [water_usage, setWaterUsage] = useState("");
-  const [price_per_cubic_meter, setPricePerCubicMeter] = useState("");
-  const [fixed_charges, setFixedCharges] = useState("");
+  const [water_usage, setWaterUsage] = useState(0); // Converted to integer
+  const [price_per_cubic_meter, setPricePerCubicMeter] = useState(0); // Converted to integer
+  const [fixed_charges, setFixedCharges] = useState(0); // Converted to integer
   const [errorMessage, setErrorMessage] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSaveBill = async () => {
     try {
       const response = await axios.post(
-        " https://api.rapidshyft.tech/api/create_bill",
+        "https://api.rapidshyft.tech/api/create_bill",
         {
           customer_id,
           water_usage,
@@ -41,6 +45,7 @@ export function ViewBill() {
       console.log("Bill created:", response.data);
       resetForm();
       onClose();
+      onCreateBillSuccess();
     } catch (error) {
       console.error("Error creating bill:", error);
       setErrorMessage("Failed to create bill. Please try again.");
@@ -49,9 +54,9 @@ export function ViewBill() {
 
   const resetForm = () => {
     setCustomerId("");
-    setWaterUsage("");
-    setPricePerCubicMeter("");
-    setFixedCharges("");
+    setWaterUsage(0);
+    setPricePerCubicMeter(0);
+    setFixedCharges(0);
     setErrorMessage("");
   };
 
@@ -86,25 +91,27 @@ export function ViewBill() {
               <FormControl>
                 <FormLabel>Water Usage</FormLabel>
                 <Input
-                  type="text"
+                  type="number" // Changed to number input
                   value={water_usage}
-                  onChange={(e) => setWaterUsage(e.target.value)}
+                  onChange={(e) => setWaterUsage(parseInt(e.target.value))}
                 />
               </FormControl>
               <FormControl>
                 <FormLabel>Price Per Cubic Meter</FormLabel>
                 <Input
-                  type="text"
+                  type="number" // Changed to number input
                   value={price_per_cubic_meter}
-                  onChange={(e) => setPricePerCubicMeter(e.target.value)}
+                  onChange={(e) =>
+                    setPricePerCubicMeter(parseInt(e.target.value))
+                  }
                 />
               </FormControl>
               <FormControl>
                 <FormLabel>Fixed Charges</FormLabel>
                 <Input
-                  type="text"
+                  type="number" // Changed to number input
                   value={fixed_charges}
-                  onChange={(e) => setFixedCharges(e.target.value)}
+                  onChange={(e) => setFixedCharges(parseInt(e.target.value))}
                 />
               </FormControl>
             </Grid>
