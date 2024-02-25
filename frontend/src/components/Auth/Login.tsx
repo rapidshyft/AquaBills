@@ -27,6 +27,7 @@ import { useState } from "react";
 import { useAuth } from "../../utils/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ALogo } from "../../assets";
+import { OAuthButtonGroup } from "./buttonGroup";
 
 export const Login = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -157,7 +158,7 @@ export const Login = () => {
                 </AbsoluteCenter>
               </Box>
 
-              {/* <OAuthButtonGroup /> */}
+              <OAuthButtonGroup />
             </Stack>
           </DrawerBody>
         </DrawerContent>
