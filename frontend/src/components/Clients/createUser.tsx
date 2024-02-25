@@ -28,7 +28,7 @@ export function CreateUser({ onCreateUserSuccess }: CreateUserProps) {
   const [phone, setPhone] = useState("");
   const [govtId, setGovtId] = useState("");
   const [meterNumber, setMeterNumber] = useState("");
-  const [houseNumber, setHouseNumber] = useState("");
+  const [house_number, sethouse_number] = useState("");
   const [town, setTown] = useState("");
   const [city, setCity] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -46,7 +46,7 @@ export function CreateUser({ onCreateUserSuccess }: CreateUserProps) {
           govtId,
           town,
           city,
-          houseNumber,
+          house_number,
         }
       );
       console.log("User created:", response.data);
@@ -56,7 +56,7 @@ export function CreateUser({ onCreateUserSuccess }: CreateUserProps) {
       setPhone("");
       setMeterNumber("");
       setGovtId("");
-      setHouseNumber("");
+      sethouse_number("");
       setTown("");
       setCity("");
 
@@ -109,8 +109,8 @@ export function CreateUser({ onCreateUserSuccess }: CreateUserProps) {
     },
     {
       label: "House Number",
-      value: houseNumber,
-      onChange: setHouseNumber,
+      value: house_number,
+      onChange: sethouse_number,
       type: "text",
       placeholder: "House Number, Street (optional)",
     },

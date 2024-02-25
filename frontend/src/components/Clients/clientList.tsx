@@ -78,6 +78,7 @@ const ClientList = () => {
       // Clear selected clients
       setSelectedClients([]);
       navigate("/clients", { replace: true });
+      fetchClients();
     } catch (error) {
       console.error("Error deleting clients:", error);
       fetchClients();
@@ -170,30 +171,37 @@ const ClientList = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {filteredClients.map((client) => (
-              <Tr key={client.$id}>
-                <Td>
-                  <Checkbox
-                    isChecked={selectedClients.includes(client.$id)}
-                    onChange={(e) => handleCheckboxChange(e, client.$id)}
-                  />
-                </Td>
-                <Td>{client.$id}</Td>
-                <Td>{client.name}</Td>
-                <Td>{client.email}</Td>
-                <Td>{client.govt_id}</Td>
-                <Td>{client.meter_number}</Td>
-                <Td>{client.address.join(" , ")}</Td>
-                <Td>{client.phone_number}</Td>
-                <Td>
-                  {client.status === "Active" ? (
-                    <Badge colorScheme="green">Active</Badge>
-                  ) : (
-                    <Badge colorScheme="red">Disabled</Badge>
-                  )}
-                </Td>
-              </Tr>
-            ))}
+            {filteredClients
+              .slice()
+              .reverse()
+              .map(
+                (
+                  client // Reverse the order
+                ) => (
+                  <Tr key={client.$id}>
+                    <Td>
+                      <Checkbox
+                        isChecked={selectedClients.includes(client.$id)}
+                        onChange={(e) => handleCheckboxChange(e, client.$id)}
+                      />
+                    </Td>
+                    <Td>{client.$id}</Td>
+                    <Td>{client.name}</Td>
+                    <Td>{client.email}</Td>
+                    <Td>{client.govt_id}</Td>
+                    <Td>{client.meter_number}</Td>
+                    <Td>{client.address.join(" , ")}</Td>
+                    <Td>{client.phone_number}</Td>
+                    <Td>
+                      {client.status === "Active" ? (
+                        <Badge colorScheme="green">Active</Badge>
+                      ) : (
+                        <Badge colorScheme="red">Disabled</Badge>
+                      )}
+                    </Td>
+                  </Tr>
+                )
+              )}
           </Tbody>
         </Table>
       </Container>
