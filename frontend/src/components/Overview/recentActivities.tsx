@@ -19,7 +19,7 @@ interface Activity {
   customerName: string;
   description: string;
   date: string;
-  status: "paid" | "processing" | "pending";
+  status: "completed" | "processing" | "pending";
 }
 
 const RecentActivities = () => {
@@ -34,7 +34,7 @@ const RecentActivities = () => {
       customerName: "John Doe",
       description: "Completed water meter readings",
       date: "2024-01-23",
-      status: "paid",
+      status: "completed",
     },
     {
       id: 2,
@@ -66,7 +66,7 @@ const RecentActivities = () => {
       customerName: "Sophia Lee",
       description: "Resolved customer billing inquiry",
       date: "2024-01-19",
-      status: "paid",
+      status: "completed",
     },
   ];
 
@@ -111,7 +111,7 @@ const RecentActivities = () => {
             </Select>
             <Select value={filterByStatus} onChange={handleFilterChange}>
               <option value="All">All</option>
-              <option value="paid">Paid</option>
+              <option value="completed">Completed</option>
               <option value="processing">Processing</option>
               <option value="pending">Pending</option>
             </Select>
