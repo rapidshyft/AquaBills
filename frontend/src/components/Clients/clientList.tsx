@@ -68,7 +68,7 @@ const ClientList = () => {
   const handleDeleteSelected = async () => {
     try {
       await axios.delete(
-        " http://34.202.159.66:8080/api/delete_selected_users",
+        " https://api.rapidshyft.tech/api/delete_selected_users",
         {
           data: { ids: selectedClients },
         }
