@@ -1,13 +1,10 @@
-from flask import Flask
-from flask_cors import CORS
+"""fastapi instance"""
+from fastapi import FastAPI
 
-from api.routes.billing import billing_bp
-from api.routes.user import user_bp
+app = FastAPI()
 
 
-def run_app():
-    app = Flask(__name__)
-    CORS(app)
-    app.register_blueprint(user_bp)
-    app.register_blueprint(billing_bp)
-    return app
+@app.get("/")
+async def root():
+    """main page"""
+    return {"Hello": "World"}

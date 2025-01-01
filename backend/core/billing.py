@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from core.db import databases, billing_collection_id, customers_collection_id, database_id
-from models.user import User
+from models.customer import User
 
 
 class Billing:

@@ -1,6 +1,6 @@
 from core.db import databases, database_id, customers_collection_id
 from core.meter_number import generate_meter_number
-from models.user import User
+from models.customer import User
 
 
 class UserHandler:
