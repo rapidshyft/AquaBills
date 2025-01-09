@@ -57,9 +57,10 @@ export function NavMain({
                     asChild
                     tooltip={item.title}
                     data-active={isActive}
+                    className="data-[active=true]:bg-blue-100 duration-0"
                   >
                     <Link href={item.url}>
-                      {item.icon && <item.icon />}
+                      {item.icon && <item.icon className="w-5 h-5" />}
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>

@@ -16,10 +16,10 @@ import { RecentActivity } from "@/components/recent-activity";
 import {
   ArrowDown,
   ArrowUp,
-  DollarSign,
   Users,
   Droplets,
   AlertTriangle,
+  BadgeDollarSign,
 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
@@ -59,7 +59,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-sm font-medium text-gray-500">
                   Total Customers
                 </CardTitle>
-                <Users className="h-4 w-4 text-gray-500" />
+                <Users className="h-6 w-6 text-gray-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">1,234</div>
@@ -76,7 +76,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-sm font-medium text-gray-500">
                   Total Revenue
                 </CardTitle>
-                <DollarSign className="h-4 w-4 text-gray-500" />
+                <BadgeDollarSign className="h-6 w-6 text-gray-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">$54,321</div>
@@ -93,7 +93,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-sm font-medium text-gray-500">
                   Overdue Payments
                 </CardTitle>
-                <AlertTriangle className="h-4 w-4 text-gray-500" />
+                <AlertTriangle className="h-6 w-6 text-gray-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">23</div>
@@ -110,7 +110,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-sm font-medium text-gray-500">
                   Water Usage
                 </CardTitle>
-                <Droplets className="h-4 w-4 text-gray-500" />
+                <Droplets className="h-6 w-6 text-gray-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">1,234,567 gal</div>
@@ -126,28 +126,28 @@ export default function DashboardPage() {
           <Card className="border-none shadow-none bg-transparent">
             <CardContent className="p-0">
               <Tabs defaultValue="payments" className="space-y-4">
-                <TabsList className="bg-white border border-slate-200 w-full justify-start h-auto p-0 rounded-lg dark:border-slate-800">
+                <TabsList className="bg-white border border-slate-200 justify-start h-auto p-0 rounded-3xl dark:border-slate-800">
                   <TabsTrigger
                     value="payments"
-                    className="data-[state=active]:bg-gray-100 rounded-none first:rounded-l-lg last:rounded-r-lg px-6 py-3"
+                    className="data-[state=active]:bg-blue-100 rounded-3xl px-6 py-3"
                   >
                     Payment History
                   </TabsTrigger>
                   <TabsTrigger
                     value="usage"
-                    className="data-[state=active]:bg-gray-100 rounded-none first:rounded-l-lg last:rounded-r-lg px-6 py-3"
+                    className="data-[state=active]:bg-blue-100 rounded-3xl px-6 py-3"
                   >
                     Usage Analytics
                   </TabsTrigger>
                   <TabsTrigger
                     value="notifications"
-                    className="data-[state=active]:bg-gray-100 rounded-none first:rounded-l-lg last:rounded-r-lg px-6 py-3"
+                    className="data-[state=active]:bg-blue-100 rounded-3xl px-6 py-3"
                   >
                     Notifications
                   </TabsTrigger>
                   <TabsTrigger
                     value="activity"
-                    className="data-[state=active]:bg-gray-100 rounded-none first:rounded-l-lg last:rounded-r-lg px-6 py-3"
+                    className="data-[state=active]:bg-blue-100 rounded-3xl px-6 py-3"
                   >
                     Recent Activity
                   </TabsTrigger>

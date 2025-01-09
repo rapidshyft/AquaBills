@@ -1,8 +1,5 @@
 import {
-  AudioWaveform,
-  GalleryVerticalEnd,
   Settings2,
-  SquareTerminal,
   CreditCard,
   BarChart2,
   Bell,
@@ -10,6 +7,8 @@ import {
   FileBarChart,
   Gauge,
   HeadphonesIcon,
+  UserCheck2Icon,
+  Home,
 } from "lucide-react";
 
 export const sidebarData = {
@@ -18,23 +17,11 @@ export const sidebarData = {
     email: "admin@example.com",
     avatar: "/images/image4.jpg",
   },
-  teams: [
-    {
-      name: "Water Co.",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "City Utilities",
-      logo: AudioWaveform,
-      plan: "Pro",
-    },
-  ],
   navMain: [
     {
       title: "Dashboard",
       url: "/",
-      icon: SquareTerminal,
+      icon: Home,
       isActive: true,
     },
     {
@@ -60,7 +47,7 @@ export const sidebarData = {
     {
       title: "Admin",
       url: "/admin",
-      icon: Users,
+      icon: UserCheck2Icon,
     },
     {
       title: "Reports",
