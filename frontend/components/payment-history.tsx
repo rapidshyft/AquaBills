@@ -63,13 +63,21 @@ export function PaymentHistory() {
                 <TableCell>${payment.amount.toFixed(2)}</TableCell>
                 <TableCell>{payment.method}</TableCell>
                 <TableCell>
-                  <Badge
-                    variant={
-                      payment.status === "Paid" ? "success" : "destructive"
-                    }
-                  >
-                    {payment.status}
-                  </Badge>
+                  {payment.status === "Paid" ? (
+                    <Badge
+                      variant={"default"}
+                      className="w-[70px] text-center justify-center bg-green-600"
+                    >
+                      {payment.status}
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant={"destructive"}
+                      className="w-[70px] text-center justify-center"
+                    >
+                      {payment.status}
+                    </Badge>
+                  )}
                 </TableCell>
                 <TableCell>
                   <Button variant="outline" size="sm">

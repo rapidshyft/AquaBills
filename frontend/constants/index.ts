@@ -33,12 +33,12 @@ export const sidebarData = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/dashboard",
+      url: "/",
       icon: SquareTerminal,
       isActive: true,
     },
     {
-      title: "Customer Management",
+      title: "Customers",
       url: "/customers",
       icon: Users,
     },
@@ -48,7 +48,7 @@ export const sidebarData = {
       icon: CreditCard,
     },
     {
-      title: "Usage Analytics",
+      title: "Analytics",
       url: "/analytics",
       icon: BarChart2,
     },
@@ -58,7 +58,7 @@ export const sidebarData = {
       icon: Bell,
     },
     {
-      title: "Admin Management",
+      title: "Admin",
       url: "/admin",
       icon: Users,
     },
@@ -68,8 +68,8 @@ export const sidebarData = {
       icon: FileBarChart,
     },
     {
-      title: "Meter Integration",
-      url: "/meters",
+      title: "Integrations",
+      url: "/integrations",
       icon: Gauge,
     },
     {

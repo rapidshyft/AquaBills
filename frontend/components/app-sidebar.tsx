@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import { usePathname } from "next/navigation";
-
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-import { TeamSwitcher } from "./team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +12,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-import { sidebarData } from "../constants/sidebar-data";
+import { sidebarData } from "../constants";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
@@ -29,17 +27,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar
+      side="left"
+      variant="floating"
       collapsible="icon"
-      className="bg-black text-black border-r overflow-hidden"
+      className="border-r overflow-hidden"
       {...props}
     >
-      <SidebarHeader>
-        <NavUser user={sidebarData.user} />
-      </SidebarHeader>
+      <SidebarHeader></SidebarHeader>
       <SidebarContent>
         <NavMain items={navItems} />
       </SidebarContent>
-      <SidebarFooter></SidebarFooter>
+      <SidebarFooter>
+        <NavUser user={sidebarData.user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
