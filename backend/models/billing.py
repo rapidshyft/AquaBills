@@ -20,3 +20,8 @@ class Invoice(Base):
 
     def __repr__(self):
         return f"<Invoice(id={self.id!r}, customer_id={self.customer_id!r})>, date={self.date!r}, total={self.total!r}"
+
+
+class Payment(Base):
+    __tablename__ = 'Payment'
+    pass
