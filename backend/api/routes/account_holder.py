@@ -4,11 +4,12 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from models.user import user
+from models.account_holder import account
 
 router = APIRouter()
 
-class User(BaseModel):
+
+class AccountHolderSchema(BaseModel):
     national_id: str
     first_name: str
     last_name: str
@@ -22,21 +23,22 @@ class User(BaseModel):
     type: Optional[str] = None
 
 
-@router.post("/user")
-async def create_user(data: User):
+@router.post("/account_holder")
+async def create_account_holder(data: AccountHolderSchema):
     """create customer"""
     try:
-        await user.create(data.model_dump())
+        await account.create(data.model_dump())
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
     return {"message": "User created successfully"}
 
-@router.get("/users")
-async def get_users():
+
+@router.get("/account_holders")
+async def get_account_holders():
     """get customers"""
     try:
-        users = await user.get_users()
-        return users
+        account_holders = await account.get_account_holders()
+        return account_holders
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
