@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # User 1
-curl -X POST -H "Content-Type: application/json" -d '{"national_id": "12gwg262", "first_name": "Lwazi", "last_name": "Ncube","address": "6904 lake drive","city": "Bulawayo", "state": ".....", "postal_code": "....", "phone": "0717939052", "email": "lwazi*****@gmail.com", "country": "Zimbabwe"}' http://0.0.0.0:8000/user
+curl -X POST -H "Content-Type: application/json" -d '{"national_id": "lojuy6565", "first_name": "Lwazi", "last_name": "Ncube","address": "6904 lake drive","city": "Bulawayo", "state": ".....", "postal_code": "....", "phone": "0717939052", "email": "lwazi*****@gmail.com", "country": "Zimbabwe"}' http://0.0.0.0:8000/account_holder

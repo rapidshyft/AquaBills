@@ -1,10 +1,14 @@
 """customer routes"""
+import re
 from typing import Optional
-
+import uvicorn
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-
+from sqlalchemy.exc import IntegrityError
+from starlette.responses import JSONResponse
 from models.account_holder import account
+
+logger = uvicorn.config.logger
 
 router = APIRouter()
 
@@ -25,13 +29,19 @@ class AccountHolderSchema(BaseModel):
 
 @router.post("/account_holder")
 async def create_account_holder(data: AccountHolderSchema):
-    """create customer"""
+    """create account holder"""
     try:
-        await account.create(data.model_dump())
+        check_account = await account.check_account_exist(data.model_dump().get("national_id"))
+        if not check_account:
+            await account.create(data.model_dump())
+            return JSONResponse(status_code=201, content={"message": "Account holder created successfully"})
+        else:
+            return JSONResponse(status_code=409, content={"message": "Account holder already exists"})
+    except IntegrityError as e:
+        logger.error(e)
+        raise HTTPException(status_code=409, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-    return {"message": "User created successfully"}
 
 
 @router.get("/account_holders")

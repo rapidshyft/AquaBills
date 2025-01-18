@@ -1,7 +1,8 @@
+import uuid
 from datetime import datetime
 
 from fastapi import HTTPException
-from sqlalchemy import Integer, String, DateTime
+from sqlalchemy import Integer, String, DateTime, exists, select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 from database.db import engine
@@ -28,6 +29,7 @@ class AccountHolder(Base):
 
     def __repr__(self) -> str:
         return f"AccountHolder(id={self.id}, first_name={self.first_name}, last_name={self.last_name}"
+
 
     async def create(self, data: dict):
         """create account_holder"""
@@ -67,13 +69,21 @@ class AccountHolder(Base):
             session.commit()
             return "account_holder deleted"
 
-    async def get_account_holder_by_id(self, id: int):
+    async def get_account_holder_by_id(self, national_id: str):
+        Base.metadata.create_all(engine)
         with Session(engine) as session:
-            account_holder = session.query(AccountHolder).filter_by(id=id).first()
+            account_holder = session.query(AccountHolder).filter_by(national_id=national_id).first()
             if not account_holder:
                 return "account_holder not found"
 
             return account_holder
+
+    async def check_account_exist(self, national_id: str):
+        """check if account exists based on unique data"""
+        Base.metadata.create_all(engine)
+        with Session(engine) as session:
+            return bool(session.query(AccountHolder).filter_by(national_id=national_id).first())
+
 
     async def get_account_holders(self):
         """get all account_holders"""
