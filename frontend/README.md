@@ -1,64 +1,36 @@
-# AquaBills - Water Billing Management System
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-AquaBills is a comprehensive water billing management system designed to streamline the process of managing water consumption, billing, and customer information.
+## Getting Started
 
+First, run the development server:
 
-![AquaBills Screenshot]("https://images.mingming.dev/file/2ed9947d0e64213b38e0b.png")
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Introduction
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-AquaBills utilizes modern web technologies for both the frontend and backend:
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Frontend
-- **React:** A JavaScript library for building user interfaces.
-- **Chakra UI:** A simple, modular and accessible component library for React.
-- **TypeScript:** A statically typed superset of JavaScript.
-- **Vite:** A fast frontend build tool that provides an extremely fast development experience.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### Backend
-- **Python:** A high-level programming language for general-purpose programming.
-- **Flask:** A lightweight WSGI web application framework in Python.
-- **Appwrite:** An open-source backend server for web and mobile developers, written in PHP and running on a Docker environment.
+## Learn More
 
-## Installation
+To learn more about Next.js, take a look at the following resources:
 
-To get started with AquaBills, follow these steps:
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-1. Clone the repository:
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-    ```bash
-    git clone https://github.com/LwaziNcubeX/AquaBills.git
-    cd AquaBills
-    ```
+## Deploy on Vercel
 
-2. Install frontend dependencies and start the development server:
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-    ```bash
-    cd frontend
-    npm install
-    npm run dev
-    ```
-
-3. Install backend dependencies and start the Flask server:
-
-    ```bash
-    cd backend
-    pip install -r requirements.txt
-    python app.py
-    ```
-
-## Usage
-
-Once the servers are running, you can access AquaBills at `http://localhost:5173` for the frontend and `http://localhost:5000` for the backend.
-
-## Contributing
-
-Contributions are welcome! To contribute to AquaBills, please follow the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Related Projects
-
-....
-
-## Licensing
-
-AquaBills is licensed under the [GNU General Public License v3.0 (GPL-3.0)](LICENSE).
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
